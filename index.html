@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entertainer Games</title>
+<meta name="description" content="Free mobile games for iPhone and Android.">
+<meta property="og:title" content="Entertainer Games">
+<meta property="og:description" content="Free mobile games for iPhone and Android.">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="logo.png">
+<script>
+// Store links per game. Set a link to null while the game isn't on that store yet.
+var GAMES = {
+  bubbly: {
+    name: "Bubbly Slide Rush",
+    tag: "Roll a giggly bubble down 400 crazy water slides",
+    icon: "bubbly.png",
+    ios: "https://apps.apple.com/app/id6829602884",
+    android: null // closed testing; then: "https://play.google.com/store/apps/details?id=com.funnyballgames.bubbleslide"
+  },
+  breakshift: {
+    name: "Breakshift",
+    tag: "Tactical ricochet brick breaker",
+    icon: "breakshift.png",
+    ios: null,
+    android: null // "https://play.google.com/store/apps/details?id=com.funnyballgames.breakshift"
+  }
+};
+var DEFAULT_GAME = "bubbly"; // where the plain link (no ?g=) sends phones
+
+var ua = navigator.userAgent || "";
+var isIOS = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+var isAndroid = /Android/i.test(ua);
+var key = (new URLSearchParams(location.search).get("g") || DEFAULT_GAME).toLowerCase();
+var game = GAMES[key] || GAMES[DEFAULT_GAME];
+var target = isIOS ? game.ios : isAndroid ? game.android : null;
+if (target) location.replace(target);
+</script>
+<style>
+  :root { --bg:#100e1c; --card:#1b1730; --text:#fff3ea; --muted:#b9a9c4; --a:#ff8c1a; --b:#ff2e88; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+         min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:32px 16px; }
+  header { text-align:center; margin-bottom:24px; }
+  header img { width:88px; height:88px; border-radius:50%; }
+  h1 { margin:12px 0 4px; font-size:28px; letter-spacing:.5px;
+       background:linear-gradient(90deg,var(--a),var(--b)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  header p { margin:0; color:var(--muted); }
+  main { width:100%; max-width:440px; display:grid; gap:16px; }
+  .card { background:var(--card); border-radius:18px; padding:16px; display:grid; grid-template-columns:72px 1fr; gap:14px; align-items:center; }
+  .card.hl { outline:2px solid var(--b); }
+  .card img { width:72px; height:72px; border-radius:16px; }
+  .card h2 { margin:0; font-size:18px; }
+  .card p { margin:2px 0 10px; color:var(--muted); font-size:14px; }
+  .btns { display:flex; gap:8px; flex-wrap:wrap; }
+  .btn { display:inline-block; padding:8px 12px; border-radius:10px; font-size:14px; font-weight:600; text-decoration:none; color:#fff;
+         background:linear-gradient(90deg,var(--a),var(--b)); }
+  .soon { padding:8px 12px; border-radius:10px; font-size:14px; color:var(--muted); background:#2a2442; }
+  footer { margin-top:auto; padding-top:32px; color:var(--muted); font-size:13px; }
+</style>
+</head>
+<body>
+<header>
+  <img src="logo.png" alt="">
+  <h1>Entertainer Games</h1>
+  <p>Free mobile games</p>
+</header>
+<main id="list"></main>
+<footer>Follow @entertainer.games for new clips every day</footer>
+<script>
+var list = document.getElementById("list");
+Object.keys(GAMES).forEach(function (k) {
+  var g = GAMES[k], card = document.createElement("div");
+  card.className = "card" + (k === key && !target ? " hl" : "");
+  function btn(url, label) {
+    return url ? '<a class="btn" href="' + url + '">' + label + '</a>'
+               : '<span class="soon">' + label + ': coming soon</span>';
+  }
+  var buttons = isIOS ? btn(g.ios, "App Store")
+              : isAndroid ? btn(g.android, "Google Play")
+              : btn(g.ios, "App Store") + btn(g.android, "Google Play");
+  card.innerHTML = '<img src="' + g.icon + '" alt=""><div><h2>' + g.name + '</h2><p>' + g.tag +
+                   '</p><div class="btns">' + buttons + '</div></div>';
+  list.appendChild(card);
+});
+</script>
+</body>
+</html>
