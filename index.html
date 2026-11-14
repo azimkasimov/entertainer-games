@@ -4,11 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Entertainer Games</title>
-<meta name="description" content="Free mobile games for iPhone and Android.">
-<meta property="og:title" content="Entertainer Games">
-<meta property="og:description" content="Free mobile games for iPhone and Android.">
-<meta property="og:image" content="logo.png">
-<link rel="icon" href="logo.png">
+<meta name="description" content="Entertainer Games is an indie mobile game studio. Play our games free: Bubbly Slide Rush on iPhone, Breakshift coming soon.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://azimkasimov.github.io/entertainer-games/">
+<meta property="og:title" content="Entertainer Games: play our games free">
+<meta property="og:description" content="Indie mobile game studio. Bubbly Slide Rush is free on iPhone; Breakshift is coming soon.">
+<meta property="og:image" content="https://azimkasimov.github.io/entertainer-games/og.jpg?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://azimkasimov.github.io/entertainer-games/og.jpg?v=2">
+<meta name="theme-color" content="#141432">
+<link rel="icon" href="logo.png?v=2">
+<link rel="apple-touch-icon" href="logo.png?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap">
 <script>
 // Store links per game. Set a link to null while the game isn't on that store yet.
 var GAMES = {
@@ -53,36 +63,53 @@ var target = track(isIOS ? game.ios : isAndroid ? game.android : null);
 if (target) location.replace(target);
 </script>
 <style>
-  :root { --bg:#100e1c; --card:#1b1730; --text:#fff3ea; --muted:#b9a9c4; --a:#ff8c1a; --b:#ff2e88; }
+  :root { --bg:#141432; --card:rgba(255,255,255,.06); --line:rgba(255,255,255,.10); --text:#fff6ee; --muted:#c3b6d6;
+          --a:#ffb02e; --b:#ff3d8b; --ink:#1b1450; }
   * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-         min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:32px 16px; }
-  header { text-align:center; margin-bottom:24px; }
-  header img { width:88px; height:88px; border-radius:50%; }
-  h1 { margin:12px 0 4px; font-size:28px; letter-spacing:.5px;
-       background:linear-gradient(90deg,var(--a),var(--b)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  body { margin:0; color:var(--text); font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; min-height:100vh;
+         background: radial-gradient(ellipse at 50% 0%, #3a1a7a 0%, #1d1650 40%, var(--bg) 75%) fixed, var(--bg);
+         display:flex; flex-direction:column; align-items:center; padding:28px 16px 24px; }
+  .brand { font-family:"Fredoka",system-ui,sans-serif; }
+  header { text-align:center; margin-bottom:22px; }
+  .hero { position:relative; width:220px; height:190px; margin:0 auto; }
+  .hero .mascot { width:170px; position:absolute; left:0; top:0; filter:drop-shadow(0 10px 14px rgba(0,0,0,.45));
+                  animation:bob 3s ease-in-out infinite; }
+  .hero .logo { width:84px; height:84px; border-radius:50%; position:absolute; right:0; bottom:6px;
+                box-shadow:0 0 0 4px #fff, 0 8px 18px rgba(0,0,0,.45); }
+  @keyframes bob { 50% { transform: translateY(-8px) rotate(-3deg); } }
+  @media (prefers-reduced-motion: reduce) { .hero .mascot { animation:none; } }
+  h1 { margin:8px 0 2px; font-size:34px; font-weight:700; letter-spacing:.5px; line-height:1.05;
+       background:linear-gradient(180deg,var(--a),#ff8a3d 45%,var(--b)); -webkit-background-clip:text; background-clip:text; color:transparent; }
   header p { margin:0; color:var(--muted); }
-  main { width:100%; max-width:440px; display:grid; gap:16px; }
-  .card { background:var(--card); border-radius:18px; padding:16px; display:grid; grid-template-columns:72px 1fr; gap:14px; align-items:center; }
-  .card.hl { outline:2px solid var(--b); }
-  .card img { width:72px; height:72px; border-radius:16px; }
-  .card h2 { margin:0; font-size:18px; }
+  main { width:100%; max-width:440px; display:grid; gap:14px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:14px; display:grid;
+          grid-template-columns:76px 1fr; gap:14px; align-items:center; backdrop-filter:blur(6px); }
+  .card.hl { border:2px solid var(--b); box-shadow:0 0 24px rgba(255,61,139,.25); }
+  .card img { width:76px; height:76px; border-radius:18px; box-shadow:0 0 0 2px #fff; }
+  .card h2 { margin:0; font-size:19px; font-weight:700; }
   .card p { margin:2px 0 10px; color:var(--muted); font-size:14px; }
   .btns { display:flex; gap:8px; flex-wrap:wrap; }
-  .btn { display:inline-block; padding:8px 12px; border-radius:10px; font-size:14px; font-weight:600; text-decoration:none; color:#fff;
-         background:linear-gradient(90deg,var(--a),var(--b)); }
-  .soon { padding:8px 12px; border-radius:10px; font-size:14px; color:var(--muted); background:#2a2442; }
-  footer { margin-top:auto; padding-top:32px; color:var(--muted); font-size:13px; }
+  .btn { display:inline-block; padding:9px 16px; border-radius:12px; font-size:15px; font-weight:700; text-decoration:none; color:#fff;
+         background:linear-gradient(90deg,#ff8a3d,var(--b)); box-shadow:0 3px 0 var(--ink); }
+  .soon { padding:8px 12px; border-radius:12px; font-size:14px; color:var(--muted); background:rgba(255,255,255,.08); }
+  .social { display:flex; gap:18px; justify-content:center; margin-top:26px; }
+  .social a { color:var(--text); text-decoration:none; font-size:14px; font-weight:600; opacity:.9; }
+  footer { margin-top:auto; padding-top:22px; color:var(--muted); font-size:13px; text-align:center; }
 </style>
 </head>
 <body>
 <header>
-  <img src="logo.png" alt="">
-  <h1>Entertainer Games</h1>
-  <p>Free mobile games</p>
+  <div class="hero"><img class="mascot" src="mascot.png" alt=""><img class="logo" src="logo.png?v=2" alt="Entertainer Games logo"></div>
+  <h1 class="brand">Entertainer Games</h1>
+  <p>Indie mobile game studio · play our games free</p>
 </header>
 <main id="list"></main>
-<footer>Follow @entertainer.games for new clips every day</footer>
+<nav class="social brand">
+  <a href="https://www.instagram.com/entertainer.games/">Instagram</a>
+  <a href="https://www.tiktok.com/@entertainer.games">TikTok</a>
+  <a href="https://www.youtube.com/@entertainer-games">YouTube</a>
+</nav>
+<footer>New clips every week</footer>
 <script>
 var list = document.getElementById("list");
 Object.keys(GAMES).forEach(function (k) {
@@ -93,10 +120,11 @@ Object.keys(GAMES).forEach(function (k) {
                : '<span class="soon">' + label + ': coming soon</span>';
   }
   var ios = track(g.ios), android = track(g.android);
-  var buttons = isIOS ? btn(ios, "App Store")
+  var buttons = !g.ios && !g.android ? '<span class="soon">Coming soon</span>'
+              : isIOS ? btn(ios, "App Store")
               : isAndroid ? btn(android, "Google Play")
               : btn(ios, "App Store") + btn(android, "Google Play");
-  card.innerHTML = '<img src="' + g.icon + '" alt=""><div><h2>' + g.name + '</h2><p>' + g.tag +
+  card.innerHTML = '<img src="' + g.icon + '" alt=""><div><h2 class="brand">' + g.name + '</h2><p>' + g.tag +
                    '</p><div class="btns">' + buttons + '</div></div>';
   list.appendChild(card);
 });
