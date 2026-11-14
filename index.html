@@ -32,9 +32,24 @@ var DEFAULT_GAME = "bubbly"; // where the plain link (no ?g=) sends phones
 var ua = navigator.userAgent || "";
 var isIOS = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
 var isAndroid = /Android/i.test(ua);
-var key = (new URLSearchParams(location.search).get("g") || DEFAULT_GAME).toLowerCase();
+var params = new URLSearchParams(location.search);
+var key = (params.get("g") || DEFAULT_GAME).toLowerCase();
 var game = GAMES[key] || GAMES[DEFAULT_GAME];
-var target = isIOS ? game.ios : isAndroid ? game.android : null;
+
+// Source tracking: links in bios/descriptions carry ?src=tt|ig|yt (default "web").
+// App Store: campaign shows in App Store Connect > Analytics > Campaigns (needs 5+ installs per campaign).
+// Google Play: shows as utm_source in Play Console acquisition reports.
+var APPLE_PROVIDER_TOKEN = "129723438"; // App Store Connect provider token (same for all our apps)
+var src = (params.get("src") || "web").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 20) || "web";
+function track(url) {
+  if (!url) return url;
+  if (url.indexOf("apps.apple.com") >= 0)
+    return url + (url.indexOf("?") >= 0 ? "&" : "?") + "pt=" + APPLE_PROVIDER_TOKEN + "&ct=" + src + "&mt=8";
+  if (url.indexOf("play.google.com") >= 0)
+    return url + "&referrer=" + encodeURIComponent("utm_source=" + src + "&utm_medium=social&utm_campaign=entertainer_games");
+  return url;
+}
+var target = track(isIOS ? game.ios : isAndroid ? game.android : null);
 if (target) location.replace(target);
 </script>
 <style>
@@ -77,9 +92,10 @@ Object.keys(GAMES).forEach(function (k) {
     return url ? '<a class="btn" href="' + url + '">' + label + '</a>'
                : '<span class="soon">' + label + ': coming soon</span>';
   }
-  var buttons = isIOS ? btn(g.ios, "App Store")
-              : isAndroid ? btn(g.android, "Google Play")
-              : btn(g.ios, "App Store") + btn(g.android, "Google Play");
+  var ios = track(g.ios), android = track(g.android);
+  var buttons = isIOS ? btn(ios, "App Store")
+              : isAndroid ? btn(android, "Google Play")
+              : btn(ios, "App Store") + btn(android, "Google Play");
   card.innerHTML = '<img src="' + g.icon + '" alt=""><div><h2>' + g.name + '</h2><p>' + g.tag +
                    '</p><div class="btns">' + buttons + '</div></div>';
   list.appendChild(card);
